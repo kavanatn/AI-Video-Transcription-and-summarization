@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-3">AI Transcription & Summarization</h1>
+            <p class="lead text-muted">Upload audio / video or paste a URL to get instant transcripts and summaries.</p>
+        </div>
+
+        <div class="glass-panel p-4">
+            <ul class="nav nav-tabs mb-4" id="uploadTabs" role="tablist">
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link active w-100" id="file-tab" data-bs-toggle="tab" data-bs-target="#file-pane" type="button"><i class="bi bi-upload me-2"></i>Upload File</button>
+                </li>
+                <li class="nav-item flex-fill" role="presentation">
+                    <button class="nav-link w-100" id="url-tab" data-bs-toggle="tab" data-bs-target="#url-pane" type="button"><i class="bi bi-link-45deg me-2"></i>From URL</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="uploadTabContent">
+                <!-- File Upload Pane -->
+                <div class="tab-pane fade show active" id="file-pane" role="tabpanel">
+                    <div id="drop-zone" class="upload-zone p-5 text-center cursor-pointer">
+                        <i class="bi bi-cloud-arrow-up display-1 text-primary mb-3"></i>
+                        <h5>Drag & Drop files here</h5>
+                        <p class="text-muted small">or click to browse (MP3, MP4, WAV, M4A)</p>
+                        <input type="file" id="file-input" class="d-none" accept="audio/*,video/*">
+                    </div>
+                </div>
+                
+                <!-- URL Pane -->
+                <div class="tab-pane fade" id="url-pane" role="tabpanel">
+                    <div class="p-4">
+                        <label for="url-input" class="form-label text-muted">YouTube or Video URL</label>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-text bg-transparent border-secondary text-primary"><i class="bi bi-link"></i></span>
+                            <input type="text" class="form-control bg-transparent border-secondary text-light" id="url-input" placeholder="https://www.youtube.com/watch?v=...">
+                            <button class="btn btn-primary" type="button" id="url-btn">Process</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Progress Section -->
+        <div id="progress-section" class="mt-4 glass-panel p-4 d-none">
+            <div class="text-center">
+                <div class="spinner-border text-accent mb-3" role="status" style="width: 3rem; height: 3rem;"></div>
+                <h4 id="progress-status" class="mb-2">Processing...</h4>
+                <p id="progress-detail" class="text-muted">Initializing AI models...</p>
+                <div class="progress bg-dark" style="height: 8px;">
+                    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+static/uploads/*
+.env
+.git/
+.gitignore
+.gemini/
+tests/
+verify_improvements.py
+test_ollama.py

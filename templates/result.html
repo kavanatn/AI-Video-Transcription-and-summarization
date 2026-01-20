@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="result-container" data-job-id="{{ job_id }}">
+    
+    <!-- Loading State -->
+    <div id="loading-state" class="text-center py-5 glass-panel">
+        <div class="spinner-border text-primary display-1 mb-4" style="width: 4rem; height: 4rem;" role="status"></div>
+        <h2 class="mb-3">Generating Insights...</h2>
+        <p class="text-muted">Analyzing audio, identifying speakers, and summarizing content.</p>
+        <div class="progress w-50 mx-auto mt-4" style="height: 6px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard (Hidden initially) -->
+    <div id="content-row" class="d-none">
+        
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+             <h2 class="mb-0"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Results Dashboard</h2>
+             <div>
+                <button class="btn btn-outline-light btn-sm me-2" id="btn-download-pdf"><i class="bi bi-file-pdf me-1"></i> PDF</button>
+                <button class="btn btn-outline-light btn-sm" id="btn-download-srt"><i class="bi bi-file-text me-1"></i> SRT</button>
+             </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Left Column: Summary & Sentiment -->
+            <div class="col-lg-4">
+                <div class="glass-panel p-4 mb-4 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-info"><i class="bi bi-card-text me-2"></i>Summary</h5>
+                        <button class="btn btn-sm btn-outline-info" data-bs-toggle="collapse" data-bs-target="#translationControls">
+                            <i class="bi bi-translate me-1"></i>Translate
+                        </button>
+                    </div>
+                    
+                    <!-- Translation Controls (Collapsible) -->
+                    <div class="collapse mb-3" id="translationControls">
+                        <div class="input-group input-group-sm">
+                            <select class="form-select bg-dark text-light border-secondary" id="summaryLanguage">
+                                <option value="">-- Select Language --</option>
+                                <option value="en">English</option>
+                                <option value="es">Spanish (Español)</option>
+                                <option value="ja">Japanese (日本語)</option>
+                                <option value="hi">Hindi (हिंदी)</option>
+                                <option value="ta">Tamil (தமிழ்)</option>
+                                <option value="te">Telugu (తెలుగు)</option>
+                                <option value="kn">Kannada (ಕನ್ನಡ)</option>
+                                <option value="ml">Malayalam (മലയാളം)</option>
+                            </select>
+                            <button class="btn btn-info btn-sm" id="translateBtn" onclick="translateSummary()">
+                                <i class="bi bi-arrow-right"></i> Go
+                            </button>
+                        </div>
+                        <div id="translationLoading" class="d-none mt-2 text-center">
+                            <div class="spinner-border spinner-border-sm text-info me-2"></div>
+                            <small class="text-muted">Translating...</small>
+                        </div>
+                    </div>
+                    
+                    <p id="summary-content" class="text-light small text-justify" style="line-height: 1.6;"></p>
+                    
+                    <hr class="border-secondary my-4">
+                    
+                    <h5 class="fw-bold mb-3 text-warning"><i class="bi bi-emoji-smile me-2"></i>Sentiment</h5>
+                    <div class="d-flex justify-content-between text-center small">
+                        <div>
+                            <span class="d-block display-6 fw-bold text-success" id="sentiment-pos">--</span>
+                            <span class="text-muted">Positive</span>
+                        </div>
+                        <div>
+                            <span class="d-block display-6 fw-bold text-light" id="sentiment-neu">--</span>
+                            <span class="text-muted">Neutral</span>
+                        </div>
+                        <div>
+                            <span class="d-block display-6 fw-bold text-danger" id="sentiment-neg">--</span>
+                            <span class="text-muted">Negative</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chapters Card -->
+                <div class="glass-panel p-4 mb-4 mt-4">
+                    <h5 class="fw-bold mb-3 text-success"><i class="bi bi-bookmarks-fill me-2"></i>Chapters</h5>
+                    <div id="chapters-list" class="list-group list-group-flush" style="max-height: 300px; overflow-y: auto;">
+                        <span class="text-muted small text-center">Processing chapters...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Interactive Transcript -->
+            <div class="col-lg-8">
+                <div class="glass-panel p-4 h-100 d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0 text-primary"><i class="bi bi-chat-square-quote me-2"></i>Transcript</h5>
+                        <div class="input-group input-group-sm w-50">
+                            <span class="input-group-text bg-transparent border-secondary"><i class="bi bi-search"></i></span>
+                            <input type="text" class="form-control bg-transparent border-secondary text-light" id="search-input" placeholder="Search transcript...">
+                        </div>
+                    </div>
+                    
+                    <div id="transcript-content" class="overflow-auto pe-2" style="max-height: 600px;">
+                        <!-- Transcript Items Injected via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-primary"><i class="bi bi-arrow-left me-2"></i>Transcribe Another</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
