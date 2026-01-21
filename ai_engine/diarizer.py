@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
+from config import Config
+
 class Diarizer:
     def __init__(
         self,
@@ -23,15 +25,15 @@ class Diarizer:
     ):
         """
         Args:
-            hf_token: Hugging Face token. If None, will attempt to read HF_TOKEN env var.
+            hf_token: Hugging Face token. If None, will attempt to read from Config.
             model_name: pretrained pyannote pipeline id to load.
             device: torch.device or None (auto-detect GPU if available).
             min_segment_duration: drop/merge segments shorter than this (seconds).
             merge_gap: join adjacent segments with same speaker if gap <= merge_gap (seconds).
         """
-        self.hf_token = hf_token or os.getenv("HF_TOKEN")
+        self.hf_token = hf_token or Config.HF_TOKEN
         if not self.hf_token:
-            logger.warning("HF_TOKEN not found. Attempting unauthenticated load (may fail for gated models).")
+            logger.warning("HF_TOKEN not found in Config or environment. Diarization may fail.")
         self.model_name = model_name
 
         if device is None:
