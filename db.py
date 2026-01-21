@@ -12,8 +12,15 @@ class Database:
             self.client = MongoClient(self.uri, serverSelectionTimeoutMS=5000)
             # Trigger a connection check
             self.client.admin.command('ping')
-            self.db = self.client.get_default_database()
-            print(f"Connected to MongoDB at {self.uri}")
+            
+            try:
+                # Try to get DB from URI (e.g. ...mongodb.net/dbname)
+                self.db = self.client.get_default_database()
+            except Exception:
+                # Fallback if no DB name is in the connection string
+                self.db = self.client['ai_transcription_db']
+                
+            print(f"Connected to MongoDB")
             return True
         except ConnectionFailure:
             print("Failed to connect to MongoDB")
