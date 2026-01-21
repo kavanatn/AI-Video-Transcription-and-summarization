@@ -1,3 +1,10 @@
+import torchaudio
+try:
+    if not hasattr(torchaudio, 'set_audio_backend'):
+        torchaudio.set_audio_backend = lambda x: None
+except ImportError:
+    pass
+
 from flask import Flask, render_template, request, jsonify
 from config import Config
 from db import db_instance
