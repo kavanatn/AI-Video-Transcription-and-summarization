@@ -1,3 +1,13 @@
+---
+title: AI Summarizer
+emoji: 🎥
+colorFrom: indigo
+colorTo: blue
+sdk: docker
+app_file: app.py
+pinned: false
+---
+
 # AI Transcription, Diarization & Summarization Tool
 
 A local, privacy-focused web application that uses advanced AI models to transcribe, differentiate speakers (diarization), and summarize audio/video content.
