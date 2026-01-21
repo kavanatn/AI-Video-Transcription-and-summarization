@@ -23,8 +23,11 @@ COPY . .
 # Create the uploads directory
 RUN mkdir -p static/uploads
 
-# Expose the port the app runs on
-EXPOSE 5000
+# Set environment variables
+ENV PORT=7860
+
+# Expose the port the app runs on (Hugging Face expects 7860)
+EXPOSE 7860
 
 # Run the application
 CMD ["python", "app.py"]
